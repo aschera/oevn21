@@ -1,25 +1,43 @@
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
+/* ********************************************************************** */
+/* ********************************************************************** */
 //STATE
 const initialState={
     account:
         {
+            name: 'Mary p.',
             accountNo: 1234567890,
-            balance: 100,
-	    accountStatus: 'open'
+            balance: '',
         }
-    ,
-    customer: {
-        name: 'Mary'
-	
+    
     }
-}
- 
+
+/* ********************************************************************** */
+/* ********************************************************************** */ 
 //ACTIONS
 
+
+
+
+const CREATE_ACTION = "CREATE_ACTION";
 const DEPOSIT_ACTION = "DEPOSIT";
 const WITHDRAW_ACTION = "WITHDRAW";
 const TRANSFER_ACTION = "TRANSFER";
-const CANCELACCOUNT_ACTION = "CLOSE";
 
+
+//create account
+function newAccount(name, no, balance) {
+  const action = {
+    type: CREATE_ACTION,
+    name: name,
+    accountNo: no,
+    balance: balance
+  }
+  return { action.type, action.name, action.accountNo, action.balance}
+}
+/* ********************************************************************** */ 
 
 // Deposit
 function deposit(amount) {
@@ -29,7 +47,7 @@ function deposit(amount) {
   }
   return { action.type, action.amount}
 }
-
+/* ********************************************************************** */ 
 
 // Withdraw
 function withdraw(amount) {
@@ -39,7 +57,7 @@ function withdraw(amount) {
   }
   return { action.type, action.amount}
 }
-
+/* ********************************************************************** */ 
 
 // Transfer
 function transfer(amount, destinationAccount) {
@@ -51,19 +69,48 @@ function transfer(amount, destinationAccount) {
     return { action.type, action.amount, action.destinationAccount}
 }
 
-// Transfer
-function close(amount, destinationAccount) {
-  const action = {
-    type: CANCELACCOUNT_ACTION,
-    amount: amount,
-    destinationAccount: destinationAccount,
-    accountStatus: 'closed'
-  }
-    return { action.type, action.amount, action.destinationAccount, action.accountStatus}
+
+
+/* ********************************************************************** */
+/* ********************************************************************** */
+/* REDUCER */
+
+const store = createStore(mainReducer);
+store.dispatch( newAccount('Hans', 12354, 0) );
+store.dispatch( deposit(5000));
+
+function mainReducer(state = initialState, action) {
+	
+	switch( action.type ) {
+        case CREATE_ACTION:
+			return {
+				name: action.name,
+                accountNo: action.accountNo,
+                balance: action.balance
+            };   
+		case DEPOSIT_ACTION:
+            let amount = action.amount;
+			return {
+				balance: state.balance + amount
+            };
+		case WITHDRAW_ACTION:
+            let amount = action.amount;
+			return {
+				balance: state.balance - amount
+            };
+        case TRANSFER_ACTION:
+            let amount = action.amount;
+            let destinationAccount = action.destinationAccount;
+			return {
+				balance: state.balance - amount
+            };
+        default:
+            return Object.assign({}, state);
+	}
 }
 
-
-
+/* ********************************************************************** */
+/* ********************************************************************** */
 
 /* ////////////////////////////  bankAccount.js  ////////////////////////////////// */
 
