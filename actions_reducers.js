@@ -4,7 +4,7 @@ const initialState={
         {
             accountNo: 1234567890,
             balance: 100,
-	    closed: false
+	    accountStatus: 'open'
         }
     ,
     customer: {
@@ -57,9 +57,9 @@ function close(amount, destinationAccount) {
     type: CANCELACCOUNT_ACTION,
     amount: amount,
     destinationAccount: destinationAccount,
-    closed: true
+    accountStatus: 'closed'
   }
-    return { action.type, action.amount, action.destinationAccount, action.closed}
+    return { action.type, action.amount, action.destinationAccount, action.accountStatus}
 }
 
 
