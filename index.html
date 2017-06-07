@@ -1,0 +1,170 @@
+<html>
+
+<body>
+
+<code>
+
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
+/* ********************************************************************** */
+/* ********************************************************************** */
+//STATE
+const initialState={
+    account:
+        {
+            name: 'Mary p.',
+            accountNo: 1234567890,
+            balance: '',
+        }
+    
+    }
+
+/* ********************************************************************** */
+/* ********************************************************************** */ 
+//ACTIONS
+
+
+
+
+const CREATE_ACTION = "CREATE_ACTION";
+const DEPOSIT_ACTION = "DEPOSIT";
+const WITHDRAW_ACTION = "WITHDRAW";
+const TRANSFER_ACTION = "TRANSFER";
+
+
+//create account
+function newAccount(name, no, balance) {
+  const action = {
+    type: CREATE_ACTION,
+    name: name,
+    accountNo: no,
+    balance: balance
+  }
+  return { action.type, action.name, action.accountNo, action.balance}
+}
+/* ********************************************************************** */ 
+
+// Deposit
+function deposit(amount) {
+  const action = {
+    type: DEPOSIT_ACTION,
+    amount: amount
+  }
+  return { action.type, action.amount}
+}
+/* ********************************************************************** */ 
+
+// Withdraw
+function withdraw(amount) {
+  const action = {
+    type: WITHDRAW_ACTION,
+    amount: amount
+  }
+  return { action.type, action.amount}
+}
+/* ********************************************************************** */ 
+
+// Transfer
+function transfer(amount, destinationAccount) {
+  const action = {
+    type: TRANSFER_ACTION,
+    amount: amount,
+    destinationAccount: destinationAccount
+  }
+    return { action.type, action.amount, action.destinationAccount}
+}
+
+
+
+/* ********************************************************************** */
+/* ********************************************************************** */
+/* REDUCER */
+
+const store = createStore(mainReducer);
+store.dispatch( newAccount('Hans', 12354, 0) );
+store.dispatch( deposit(5000));
+
+function mainReducer(state = initialState, action) {
+	
+	switch( action.type ) {
+        case CREATE_ACTION:
+			return {
+				name: action.name,
+                accountNo: action.accountNo,
+                balance: action.balance
+            };   
+		case DEPOSIT_ACTION:
+            let amount = action.amount;
+			return {
+				balance: state.balance + amount
+            };
+		case WITHDRAW_ACTION:
+            let amount = action.amount;
+			return {
+				balance: state.balance - amount
+            };
+        case TRANSFER_ACTION:
+            let amount = action.amount;
+            let destinationAccount = action.destinationAccount;
+			return {
+				balance: state.balance - amount
+            };
+        default:
+            return Object.assign({}, state);
+	}
+}
+
+/* ********************************************************************** */
+/* ********************************************************************** */
+
+/* ////////////////////////////  bankAccount.js  ////////////////////////////////// */
+
+/*
+1. Write test cases for the functions: balance, deposit, withdraw, transferFunds (red)
+2. Implement the functions (green)
+3. Start from 1!
+*/
+class BankAccount {
+	/*
+	You don't need to test the constructor in this exercise.
+	*/
+	constructor() {
+		this.accountNo = 1001;
+		this.balance = 0;  // balance should only be modified in the functions deposit and withdraw
+	}
+		
+	/*
+	Returns true if the money was successfully deposited.
+	Throws Error('Bad parameter') if amount is something other than a number, that is greater than 0 and less than positive infinity.
+	*/
+	deposit(amount) {
+		throw new Error('Not implemented yet');
+	}
+	
+	/*
+	Returns true if the money was successfully withdrawn.
+	Returns false if the account didn't have enough money. No money should be withdrawn in this case.
+	Throws Error('Bad parameter') if amount is something other than a number, that is greater than 0 and less than positive infinity.
+	*/
+	withdraw(amount) {
+		throw new Error('Not implemented yet');
+	}
+	
+	/*
+	Returns true if the amount was successfully transferred from the source account (this object) to the destination account.
+	Returns false if the source account didn't have enough money. Neither the source nor the destination should change balance.
+	Throws Error('Bad parameter: account') if the destination account is not an object of the class BankAccount.
+	Throw Error('Bad parameter: amount') if the amount is something other than a number, that is greater than 0 and less than positive infinity.
+	*/
+	transferFunds(amount, destinationAccount) {
+		throw new Error('Not implemented yet');
+	}
+}
+
+
+</code>
+
+</body>
+
+</html>
